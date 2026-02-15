@@ -72,6 +72,24 @@ export async function PUT(request: Request, context: RouteContext) {
       );
     }
 
+    // Check for duplicate name (case-insensitive) when name is being updated
+    if (updates.name) {
+      const { data: existing } = await supabase
+        .from("personas")
+        .select("id")
+        .eq("user_id", user.id)
+        .ilike("name", updates.name as string)
+        .neq("id", id)
+        .maybeSingle();
+
+      if (existing) {
+        return NextResponse.json(
+          { error: "A persona with this name already exists" },
+          { status: 409 }
+        );
+      }
+    }
+
     const { data, error } = await supabase
       .from("personas")
       .update(updates)

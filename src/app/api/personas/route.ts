@@ -65,6 +65,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check for duplicate name (case-insensitive) for this user
+    const { data: existing } = await supabase
+      .from("personas")
+      .select("id")
+      .eq("user_id", user.id)
+      .ilike("name", name.trim())
+      .maybeSingle();
+
+    if (existing) {
+      return NextResponse.json(
+        { error: "A persona with this name already exists" },
+        { status: 409 }
+      );
+    }
+
     const { data, error } = await supabase
       .from("personas")
       .insert({

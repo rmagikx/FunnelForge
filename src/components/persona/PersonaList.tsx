@@ -102,7 +102,7 @@ export default function PersonaList() {
       </div>
 
       {personaError && (
-        <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+        <div className="mb-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
           {personaError}
         </div>
       )}
@@ -362,7 +362,7 @@ function PersonaDocuments({ personaId }: { personaId: string }) {
       {isLoading ? (
         <p className="text-sm text-gray-400">Loading...</p>
       ) : error ? (
-        <p className="text-sm text-red-600">{error}</p>
+        <div className="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">{error}</div>
       ) : documents.length === 0 ? (
         <p className="text-sm text-gray-400">
           No documents uploaded yet. Upload files via the generate flow to
