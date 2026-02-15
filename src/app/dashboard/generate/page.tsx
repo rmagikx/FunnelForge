@@ -152,7 +152,7 @@ function GeneratePageContent() {
                   Switch persona
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href={`/dashboard/personas/${selectedPersonaId}`}
                   className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   Upload more docs

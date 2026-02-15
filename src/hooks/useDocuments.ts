@@ -10,7 +10,11 @@ async function parseResponse(res: Response): Promise<Record<string, unknown>> {
   try {
     return JSON.parse(text);
   } catch {
-    throw new Error("Server returned an invalid response");
+    throw new Error(
+      text.includes("FUNCTION_INVOCATION_TIMEOUT") || text.includes("504")
+        ? "The request timed out — please try again"
+        : "Server returned an unexpected response — please try again"
+    );
   }
 }
 

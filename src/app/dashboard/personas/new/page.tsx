@@ -90,7 +90,7 @@ export default function NewPersonaPage() {
       });
       const createText = await createRes.text();
       let createBody: Record<string, unknown>;
-      try { createBody = JSON.parse(createText); } catch { throw new Error("Server returned an invalid response"); }
+      try { createBody = JSON.parse(createText); } catch { throw new Error("Server returned an unexpected response — please try again"); }
       if (!createRes.ok) {
         throw new Error((createBody.error as string) || "Failed to create persona");
       }
@@ -108,7 +108,7 @@ export default function NewPersonaPage() {
       });
       const uploadText = await uploadRes.text();
       let uploadBody: Record<string, unknown>;
-      try { uploadBody = JSON.parse(uploadText); } catch { throw new Error("Server returned an invalid response during upload"); }
+      try { uploadBody = JSON.parse(uploadText); } catch { throw new Error("Upload timed out or failed — please try again"); }
       if (!uploadRes.ok) {
         throw new Error((uploadBody.error as string) || "Upload failed");
       }
@@ -121,7 +121,7 @@ export default function NewPersonaPage() {
       });
       const analyzeText = await analyzeRes.text();
       let analyzeBody: Record<string, unknown>;
-      try { analyzeBody = JSON.parse(analyzeText); } catch { throw new Error("Server returned an invalid response during analysis — please try again"); }
+      try { analyzeBody = JSON.parse(analyzeText); } catch { throw new Error("Analysis timed out or failed — please try again"); }
       if (!analyzeRes.ok) {
         throw new Error((analyzeBody.error as string) || "Analysis failed");
       }
@@ -157,7 +157,7 @@ export default function NewPersonaPage() {
       });
       const text = await res.text();
       let resBody: Record<string, unknown>;
-      try { resBody = JSON.parse(text); } catch { throw new Error("Server returned an invalid response"); }
+      try { resBody = JSON.parse(text); } catch { throw new Error("Server returned an unexpected response — please try again"); }
       if (!res.ok) {
         throw new Error((resBody.error as string) || "Failed to save");
       }

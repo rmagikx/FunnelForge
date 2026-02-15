@@ -65,7 +65,7 @@ export default function PersonaDetailPage() {
       try {
         body = JSON.parse(text);
       } catch {
-        throw new Error("Server returned an invalid response");
+        throw new Error("Server returned an unexpected response — please try again");
       }
       if (!res.ok) {
         throw new Error((body.error as string) || "Not found");
@@ -124,7 +124,7 @@ export default function PersonaDetailPage() {
       try {
         resBody = JSON.parse(text);
       } catch {
-        throw new Error("Server returned an invalid response");
+        throw new Error("Server returned an unexpected response — please try again");
       }
       if (!res.ok) {
         throw new Error((resBody.error as string) || "Save failed");
@@ -141,6 +141,17 @@ export default function PersonaDetailPage() {
 
   /* ── Re-analyze ── */
   async function handleReanalyze() {
+    // Check if there are any parsed documents before calling the API
+    const parsedDocs = documents.filter((d) => d.extracted_text);
+    if (parsedDocs.length === 0) {
+      setError(
+        documents.length === 0
+          ? "Please upload documents before running analysis."
+          : "None of the uploaded documents could be parsed. Please upload PDF, DOCX, or TXT files."
+      );
+      return;
+    }
+
     setIsAnalyzing(true);
     setError(null);
     setSuccessMsg(null);
@@ -156,7 +167,7 @@ export default function PersonaDetailPage() {
       try {
         body = JSON.parse(text);
       } catch {
-        throw new Error("Server returned an invalid response — please try again");
+        throw new Error("Server returned an unexpected response — please try again");
       }
       if (!res.ok) {
         throw new Error((body.error as string) || "Analysis failed");
