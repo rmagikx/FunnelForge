@@ -60,12 +60,17 @@ export default function PersonaDetailPage() {
     setError(null);
     try {
       const res = await fetch(`/api/personas/${id}`);
-      if (!res.ok) {
-        const b = await res.json();
-        throw new Error(b.error || "Not found");
+      const text = await res.text();
+      let body: Record<string, unknown>;
+      try {
+        body = JSON.parse(text);
+      } catch {
+        throw new Error("Server returned an invalid response");
       }
-      const { persona: p } = (await res.json()) as { persona: Persona };
-      setPersona(p);
+      if (!res.ok) {
+        throw new Error((body.error as string) || "Not found");
+      }
+      setPersona(body.persona as Persona);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load persona");
     } finally {
@@ -114,12 +119,17 @@ export default function PersonaDetailPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      if (!res.ok) {
-        const b = await res.json();
-        throw new Error(b.error || "Save failed");
+      const text = await res.text();
+      let resBody: Record<string, unknown>;
+      try {
+        resBody = JSON.parse(text);
+      } catch {
+        throw new Error("Server returned an invalid response");
       }
-      const { persona: updated } = (await res.json()) as { persona: Persona };
-      setPersona(updated);
+      if (!res.ok) {
+        throw new Error((resBody.error as string) || "Save failed");
+      }
+      setPersona(resBody.persona as Persona);
       setIsEditing(false);
       showSuccess("Persona updated!");
     } catch (err) {
@@ -141,12 +151,17 @@ export default function PersonaDetailPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ personaId: id }),
       });
-      if (!res.ok) {
-        const b = await res.json();
-        throw new Error(b.error || "Analysis failed");
+      const text = await res.text();
+      let body: Record<string, unknown>;
+      try {
+        body = JSON.parse(text);
+      } catch {
+        throw new Error("Server returned an invalid response — please try again");
       }
-      const { persona: updated } = (await res.json()) as { persona: Persona };
-      setPersona(updated);
+      if (!res.ok) {
+        throw new Error((body.error as string) || "Analysis failed");
+      }
+      setPersona(body.persona as Persona);
       showSuccess("Persona re-analyzed successfully!");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Re-analysis failed");
