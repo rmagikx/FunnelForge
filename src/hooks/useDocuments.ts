@@ -4,6 +4,16 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Document } from "@/lib/types";
 
+/** Safely parse a fetch response as JSON, returning a typed object. */
+async function parseResponse(res: Response): Promise<Record<string, unknown>> {
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Server returned an invalid response");
+  }
+}
+
 interface UseDocumentsReturn {
   documents: Document[];
   isLoading: boolean;
@@ -82,14 +92,11 @@ export function useDocuments(personaId: string | null): UseDocumentsReturn {
           body: formData,
         });
 
+        const body = await parseResponse(res);
         if (!res.ok) {
-          const body = await res.json();
-          throw new Error(body.error || "Upload failed");
+          throw new Error((body.error as string) || "Upload failed");
         }
-
-        const { documents: uploaded } = (await res.json()) as {
-          documents: Document[];
-        };
+        const uploaded = body.documents as Document[];
 
         // Replace placeholders with real records
         setDocuments((prev) => [
@@ -129,9 +136,9 @@ export function useDocuments(personaId: string | null): UseDocumentsReturn {
           body: JSON.stringify({ documentId }),
         });
 
+        const body = await parseResponse(res);
         if (!res.ok) {
-          const body = await res.json();
-          throw new Error(body.error || "Delete failed");
+          throw new Error((body.error as string) || "Delete failed");
         }
       } catch (err) {
         // Roll back on failure

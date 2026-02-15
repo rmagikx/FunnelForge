@@ -3,6 +3,16 @@
 import { useState, useCallback } from "react";
 import type { GenerationRow, GeneratedPlan } from "@/lib/types";
 
+/** Safely parse a fetch response as JSON, returning a typed object. */
+async function parseResponse(res: Response): Promise<Record<string, unknown>> {
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Server returned an invalid response");
+  }
+}
+
 interface UseContentGenerationReturn {
   /** The full generation row (includes DB id, timestamps, etc.) */
   generation: GenerationRow | null;
@@ -44,15 +54,11 @@ export function useContentGeneration(): UseContentGenerationReturn {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ personaId, problemStatement, channels }),
         });
-
+        const body = await parseResponse(res);
         if (!res.ok) {
-          const body = await res.json();
-          throw new Error(body.error || "Failed to generate content");
+          throw new Error((body.error as string) || "Failed to generate content");
         }
-
-        const { generation: gen } = (await res.json()) as {
-          generation: GenerationRow;
-        };
+        const gen = body.generation as GenerationRow;
 
         setGeneration(gen);
         setGeneratedContent(

@@ -88,11 +88,13 @@ export default function NewPersonaPage() {
           orgType: orgType || undefined,
         }),
       });
+      const createText = await createRes.text();
+      let createBody: Record<string, unknown>;
+      try { createBody = JSON.parse(createText); } catch { throw new Error("Server returned an invalid response"); }
       if (!createRes.ok) {
-        const b = await createRes.json();
-        throw new Error(b.error || "Failed to create persona");
+        throw new Error((createBody.error as string) || "Failed to create persona");
       }
-      const { persona } = (await createRes.json()) as { persona: Persona };
+      const persona = createBody.persona as Persona;
       setPersonaId(persona.id);
 
       /* 2. Upload documents */
@@ -104,9 +106,11 @@ export default function NewPersonaPage() {
         method: "POST",
         body: form,
       });
+      const uploadText = await uploadRes.text();
+      let uploadBody: Record<string, unknown>;
+      try { uploadBody = JSON.parse(uploadText); } catch { throw new Error("Server returned an invalid response during upload"); }
       if (!uploadRes.ok) {
-        const b = await uploadRes.json();
-        throw new Error(b.error || "Upload failed");
+        throw new Error((uploadBody.error as string) || "Upload failed");
       }
 
       /* 3. Analyze */
@@ -115,13 +119,13 @@ export default function NewPersonaPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ personaId: persona.id }),
       });
+      const analyzeText = await analyzeRes.text();
+      let analyzeBody: Record<string, unknown>;
+      try { analyzeBody = JSON.parse(analyzeText); } catch { throw new Error("Server returned an invalid response during analysis — please try again"); }
       if (!analyzeRes.ok) {
-        const b = await analyzeRes.json();
-        throw new Error(b.error || "Analysis failed");
+        throw new Error((analyzeBody.error as string) || "Analysis failed");
       }
-      const { persona: updated } = (await analyzeRes.json()) as {
-        persona: Persona;
-      };
+      const updated = analyzeBody.persona as Persona;
       const data = updated.persona_data as unknown as BrandPersona;
       setPersonaData(data);
       setEditableData({ ...data });
@@ -151,9 +155,11 @@ export default function NewPersonaPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ personaData: editableData }),
       });
+      const text = await res.text();
+      let resBody: Record<string, unknown>;
+      try { resBody = JSON.parse(text); } catch { throw new Error("Server returned an invalid response"); }
       if (!res.ok) {
-        const b = await res.json();
-        throw new Error(b.error || "Failed to save");
+        throw new Error((resBody.error as string) || "Failed to save");
       }
       setStep(4); // success
       setTimeout(() => router.push(`/dashboard/personas/${personaId}`), 1000);

@@ -3,6 +3,16 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Persona } from "@/lib/types";
 
+/** Safely parse a fetch response as JSON, returning a typed object. */
+async function parseResponse(res: Response): Promise<Record<string, unknown>> {
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Server returned an invalid response");
+  }
+}
+
 interface UsePersonasReturn {
   personas: Persona[];
   selectedPersona: Persona | null;
@@ -36,15 +46,11 @@ export function usePersonas(): UsePersonasReturn {
 
     try {
       const res = await fetch("/api/personas");
+      const body = await parseResponse(res);
       if (!res.ok) {
-        const body = await res.json();
-        throw new Error(body.error || "Failed to load personas");
+        throw new Error((body.error as string) || "Failed to load personas");
       }
-
-      const { personas: data } = (await res.json()) as {
-        personas: Persona[];
-      };
-      setPersonas(data);
+      setPersonas(body.personas as Persona[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load personas");
     } finally {
@@ -73,13 +79,11 @@ export function usePersonas(): UsePersonasReturn {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, orgType }),
         });
-
+        const body = await parseResponse(res);
         if (!res.ok) {
-          const body = await res.json();
-          throw new Error(body.error || "Failed to create persona");
+          throw new Error((body.error as string) || "Failed to create persona");
         }
-
-        const { persona } = (await res.json()) as { persona: Persona };
+        const persona = body.persona as Persona;
         setPersonas((prev) => [persona, ...prev]);
         return persona;
       } catch (err) {
@@ -119,13 +123,11 @@ export function usePersonas(): UsePersonasReturn {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updates),
         });
-
+        const body = await parseResponse(res);
         if (!res.ok) {
-          const body = await res.json();
-          throw new Error(body.error || "Failed to update persona");
+          throw new Error((body.error as string) || "Failed to update persona");
         }
-
-        const { persona } = (await res.json()) as { persona: Persona };
+        const persona = body.persona as Persona;
         setPersonas((prev) => prev.map((p) => (p.id === id ? persona : p)));
 
         if (selectedPersona?.id === id) {
@@ -159,10 +161,9 @@ export function usePersonas(): UsePersonasReturn {
         const res = await fetch(`/api/personas/${id}`, {
           method: "DELETE",
         });
-
+        const body = await parseResponse(res);
         if (!res.ok) {
-          const body = await res.json();
-          throw new Error(body.error || "Failed to delete persona");
+          throw new Error((body.error as string) || "Failed to delete persona");
         }
       } catch (err) {
         setPersonas(previous);
@@ -185,13 +186,11 @@ export function usePersonas(): UsePersonasReturn {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ personaId: id }),
         });
-
+        const body = await parseResponse(res);
         if (!res.ok) {
-          const body = await res.json();
-          throw new Error(body.error || "Failed to analyze persona");
+          throw new Error((body.error as string) || "Failed to analyze persona");
         }
-
-        const { persona } = (await res.json()) as { persona: Persona };
+        const persona = body.persona as Persona;
         setPersonas((prev) => prev.map((p) => (p.id === id ? persona : p)));
 
         if (selectedPersona?.id === id) {
