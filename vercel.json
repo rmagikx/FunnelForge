@@ -11,6 +11,9 @@
     },
     "src/app/api/documents/route.ts": {
       "maxDuration": 60
+    },
+    "src/app/api/analyze-documents/route.ts": {
+      "maxDuration": 60
     }
   },
   "headers": [

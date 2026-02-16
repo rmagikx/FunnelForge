@@ -35,7 +35,6 @@ export default function NewPersonaPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* Step 3 – analysis result */
-  const [personaId, setPersonaId] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [personaData, setPersonaData] = useState<BrandPersona | null>(null);
 
@@ -79,54 +78,21 @@ export default function NewPersonaPage() {
     setIsAnalyzing(true);
 
     try {
-      /* 1. Create persona record */
-      const createRes = await fetch("/api/personas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: orgName.trim(),
-          orgType: orgType || undefined,
-        }),
-      });
-      const createText = await createRes.text();
-      let createBody: Record<string, unknown>;
-      try { createBody = JSON.parse(createText); } catch { throw new Error("Server returned an unexpected response — please try again"); }
-      if (!createRes.ok) {
-        throw new Error((createBody.error as string) || "Failed to create persona");
-      }
-      const persona = createBody.persona as Persona;
-      setPersonaId(persona.id);
-
-      /* 2. Upload documents */
+      /* Send files for parsing + analysis — no DB records created */
       const form = new FormData();
-      form.set("personaId", persona.id);
       files.forEach((f) => form.append("files", f));
 
-      const uploadRes = await fetch("/api/documents", {
+      const res = await fetch("/api/analyze-documents", {
         method: "POST",
         body: form,
       });
-      const uploadText = await uploadRes.text();
-      let uploadBody: Record<string, unknown>;
-      try { uploadBody = JSON.parse(uploadText); } catch { throw new Error("Upload timed out or failed — please try again"); }
-      if (!uploadRes.ok) {
-        throw new Error((uploadBody.error as string) || "Upload failed");
+      const text = await res.text();
+      let body: Record<string, unknown>;
+      try { body = JSON.parse(text); } catch { throw new Error("Analysis timed out or failed — please try again"); }
+      if (!res.ok) {
+        throw new Error((body.error as string) || "Analysis failed");
       }
-
-      /* 3. Analyze */
-      const analyzeRes = await fetch("/api/analyze-persona", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personaId: persona.id }),
-      });
-      const analyzeText = await analyzeRes.text();
-      let analyzeBody: Record<string, unknown>;
-      try { analyzeBody = JSON.parse(analyzeText); } catch { throw new Error("Analysis timed out or failed — please try again"); }
-      if (!analyzeRes.ok) {
-        throw new Error((analyzeBody.error as string) || "Analysis failed");
-      }
-      const updated = analyzeBody.persona as Persona;
-      const data = updated.persona_data as unknown as BrandPersona;
+      const data = body.personaData as BrandPersona;
       setPersonaData(data);
       setEditableData({ ...data });
 
@@ -143,26 +109,47 @@ export default function NewPersonaPage() {
     setStep(3);
   }
 
-  // Step 4 → Step 5 (save persona)
+  // Step 4 → Step 5 (save persona — creates persona + uploads documents)
   async function handleSave() {
-    if (!personaId || !editableData) return;
+    if (!editableData) return;
     setIsSaving(true);
     setError(null);
 
     try {
-      const res = await fetch(`/api/personas/${personaId}`, {
-        method: "PUT",
+      /* 1. Create persona record with analyzed data */
+      const createRes = await fetch("/api/personas", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personaData: editableData }),
+        body: JSON.stringify({
+          name: orgName.trim(),
+          orgType: orgType || undefined,
+          personaData: editableData,
+        }),
       });
-      const text = await res.text();
-      let resBody: Record<string, unknown>;
-      try { resBody = JSON.parse(text); } catch { throw new Error("Server returned an unexpected response — please try again"); }
-      if (!res.ok) {
-        throw new Error((resBody.error as string) || "Failed to save");
+      const createText = await createRes.text();
+      let createBody: Record<string, unknown>;
+      try { createBody = JSON.parse(createText); } catch { throw new Error("Server returned an unexpected response — please try again"); }
+      if (!createRes.ok) {
+        throw new Error((createBody.error as string) || "Failed to create persona");
       }
+      const persona = createBody.persona as Persona;
+
+      /* 2. Upload documents to storage (linked to the new persona) */
+      const form = new FormData();
+      form.set("personaId", persona.id);
+      files.forEach((f) => form.append("files", f));
+
+      const uploadRes = await fetch("/api/documents", {
+        method: "POST",
+        body: form,
+      });
+      if (!uploadRes.ok) {
+        // Non-critical — persona is already saved, just log the error
+        console.error("Document upload failed after persona creation");
+      }
+
       setStep(4); // success
-      setTimeout(() => router.push(`/dashboard/personas/${personaId}`), 1000);
+      setTimeout(() => router.push(`/dashboard/personas/${persona.id}`), 1000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save persona");
     } finally {
