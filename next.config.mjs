@@ -4,7 +4,7 @@ const nextConfig = {
     // Prevent webpack from bundling native/Node-only packages.
     // pdf-parse v2 references Worker, canvas, document, and window internally;
     // bundling it causes crashes in the Next.js server runtime.
-    serverComponentsExternalPackages: ["pdf-parse"],
+    serverComponentsExternalPackages: ["pdf-parse", "pdfjs-dist"],
   },
 };
 
