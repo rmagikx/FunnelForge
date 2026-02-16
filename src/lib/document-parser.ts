@@ -1,4 +1,4 @@
-import { PDFParse } from "pdf-parse";
+import pdfParse from "pdf-parse";
 import mammoth from "mammoth";
 import Papa from "papaparse";
 
@@ -17,8 +17,7 @@ export async function parseDocument(
 
   switch (mimeType) {
     case "application/pdf": {
-      const parser = new PDFParse({ data: new Uint8Array(buffer) });
-      const result = await parser.getText();
+      const result = await pdfParse(buffer);
       text = result.text;
       break;
     }
