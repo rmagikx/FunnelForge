@@ -30,7 +30,8 @@ interface UseContentGenerationReturn {
   generate: (
     personaId: string,
     problemStatement: string,
-    channels: string[]
+    channels: string[],
+    stage: string
   ) => Promise<GenerationRow | null>;
   /** Reset state */
   reset: () => void;
@@ -47,7 +48,8 @@ export function useContentGeneration(): UseContentGenerationReturn {
     async (
       personaId: string,
       problemStatement: string,
-      channels: string[]
+      channels: string[],
+      stage: string
     ): Promise<GenerationRow | null> => {
       setError(null);
       setIsGenerating(true);
@@ -56,7 +58,7 @@ export function useContentGeneration(): UseContentGenerationReturn {
         const res = await fetch("/api/generate-content", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ personaId, problemStatement, channels }),
+          body: JSON.stringify({ personaId, problemStatement, channels, stage }),
         });
         const body = await parseResponse(res);
         if (!res.ok) {

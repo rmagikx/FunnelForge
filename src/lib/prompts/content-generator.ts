@@ -7,14 +7,23 @@ tailored to the persona's psychology, preferences, pain points, and preferred ch
 Do not hallucinate.
 You MUST respond with valid JSON only — no markdown, no explanation outside the JSON.`;
 
+const STAGE_GUIDANCE: Record<string, string> = {
+  awareness: "Content should educate and attract — raise awareness of the problem and position the brand as a knowledgeable voice.",
+  consideration: "Content should build trust and demonstrate expertise — help the audience evaluate solutions and see the brand as the right choice.",
+  conversion: "Content should drive a specific action (signup, purchase, booking, demo request) — create urgency and remove objections.",
+};
+
 export function buildContentGeneratorPrompt(
   persona: BrandPersona,
   problemStatement: string,
-  channels: string[]
+  channels: string[],
+  stage: string
 ): string {
   const channelBlock = formatChannelSpecs(channels);
+  const stageLabel = stage.charAt(0).toUpperCase() + stage.slice(1);
+  const guidance = STAGE_GUIDANCE[stage] ?? "";
 
-  return `Generate a full-funnel content plan for the following brand persona and problem.
+  return `Generate funnel content for the "${stageLabel}" stage for the following brand persona and problem.
 
 <brand_persona>
 Name: ${persona.name}
@@ -38,12 +47,17 @@ ${problemStatement}
 ${channelBlock}
 </channel_specifications>
 
-For EACH channel listed above, generate content for all three funnel stages.
-Each stage should have 2-3 content pieces.
+<funnel_stage>
+Stage: ${stageLabel}
+${guidance}
+</funnel_stage>
+
+For EACH channel listed above, generate exactly 2 content pieces for the "${stage}" funnel stage ONLY.
+Do NOT generate content for any other stage.
 
 Return a JSON object where each key is the channel name (lowercase, e.g. "linkedin", "email") and the value is:
 {
-  "awareness": [
+  "${stage}": [
     {
       "headline": "Attention-grabbing headline",
       "body": "Full content body text, written in the brand's voice",
@@ -52,15 +66,11 @@ Return a JSON object where each key is the channel name (lowercase, e.g. "linked
       "hashtags": ["relevant", "hashtags"],
       "posting_tip": "One practical tip for publishing this content"
     }
-  ],
-  "consideration": [ ... same structure ... ],
-  "conversion": [ ... same structure ... ]
+  ]
 }
 
 Ensure:
 - All content matches the brand's tone and vocabulary
-- Awareness content educates and attracts
-- Consideration content builds trust and demonstrates expertise
-- Conversion content drives a specific action (signup, purchase, booking)
-- Each piece is complete and ready to publish (not just a concept)`;
+- Each piece is complete and ready to publish (not just a concept)
+- Generate exactly 2 pieces per channel for the "${stage}" stage`;
 }

@@ -13,6 +13,7 @@ const VALID_CHANNELS = [
   "facebook",
   "tiktok",
 ];
+const VALID_STAGES = ["awareness", "consideration", "conversion"];
 const MAX_PROBLEM_LENGTH = 5000;
 const MAX_CHANNELS = 7;
 const RATE_LIMIT = 10; // per hour
@@ -70,10 +71,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const { personaId, problemStatement, channels } = body as {
+    const { personaId, problemStatement, channels, stage } = body as {
       personaId?: string;
       problemStatement?: string;
       channels?: string[];
+      stage?: string;
     };
 
     if (!personaId || typeof personaId !== "string") {
@@ -139,6 +141,15 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!stage || typeof stage !== "string" || !VALID_STAGES.includes(stage)) {
+      return NextResponse.json(
+        {
+          error: `stage is required and must be one of: ${VALID_STAGES.join(", ")}`,
+        },
+        { status: 400 }
+      );
+    }
+
     // ── Fetch persona (RLS ensures ownership) ──
     const { data: persona, error: fetchError } = await supabase
       .from("personas")
@@ -169,7 +180,8 @@ export async function POST(request: Request) {
     const plan: GeneratedPlan = await generateContent(
       brandPersona,
       problemStatement.trim(),
-      channels
+      channels,
+      stage
     );
 
     // ── Save to generations table ──

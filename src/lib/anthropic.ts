@@ -85,13 +85,14 @@ export async function analyzePersona(
 }
 
 /**
- * Generate a full-funnel content plan for the given persona, problem, and channels.
+ * Generate content for a single funnel stage for the given persona, problem, and channels.
  */
 export async function generateContent(
   persona: BrandPersona,
   problemStatement: string,
-  channels: string[]
+  channels: string[],
+  stage: string
 ): Promise<GeneratedPlan> {
-  const prompt = buildContentGeneratorPrompt(persona, problemStatement, channels);
+  const prompt = buildContentGeneratorPrompt(persona, problemStatement, channels, stage);
   return callClaudeJSON<GeneratedPlan>(CONTENT_GENERATOR_SYSTEM, prompt);
 }
