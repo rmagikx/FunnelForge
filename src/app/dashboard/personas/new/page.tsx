@@ -354,10 +354,10 @@ export default function NewPersonaPage() {
             >
               {isAnalyzing ? (
                 <span className="flex items-center justify-center gap-2">
-                  <Spinner /> Uploading &amp; Analyzing...
+                  <Spinner /> Creating Brand Persona...
                 </span>
               ) : (
-                "Analyze Documents"
+                "Create the Brand Persona"
               )}
             </button>
           </div>
@@ -395,9 +395,23 @@ export default function NewPersonaPage() {
             <button
               type="button"
               onClick={handleProceedToReview}
-              className="flex-1 rounded-lg bg-coral px-4 py-3 text-sm font-semibold text-white hover:bg-coral-dark transition-colors"
+              className="flex-1 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Review &amp; Edit
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={isSaving}
+              className="flex-1 rounded-lg bg-coral px-4 py-3 text-sm font-semibold text-white hover:bg-coral-dark transition-colors disabled:opacity-50"
+            >
+              {isSaving ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Spinner /> Saving...
+                </span>
+              ) : (
+                "Save the Brand Persona"
+              )}
             </button>
           </div>
         </div>

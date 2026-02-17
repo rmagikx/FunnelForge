@@ -99,10 +99,10 @@ export default function DashboardPage() {
             (persona as Persona & { documents?: { count: number }[] })
               .documents?.[0]?.count ?? 0;
           const isAnalyzed = "name" in ((persona.persona_data as Record<string, unknown>) ?? {});
-          const brandName =
+          const brandDescription =
             isAnalyzed
-              ? String((persona.persona_data as Record<string, unknown>).name ?? persona.name)
-              : persona.name;
+              ? String((persona.persona_data as Record<string, unknown>).name ?? "")
+              : "";
 
           return (
             <button
@@ -129,8 +129,11 @@ export default function DashboardPage() {
 
               {/* Name */}
               <h3 className="font-heading font-semibold text-gray-900 group-hover:text-coral transition-colors">
-                {brandName}
+                {persona.name}
               </h3>
+              {brandDescription && (
+                <p className="text-xs text-gray-500 mt-0.5">{brandDescription}</p>
+              )}
               {persona.org_type && (
                 <p className="text-xs text-gray-400 mt-0.5">{persona.org_type}</p>
               )}

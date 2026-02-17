@@ -329,10 +329,10 @@ export default function PersonaDetailPage() {
                 >
                   {isAnalyzing ? (
                     <span className="flex items-center gap-1.5">
-                      <Spinner className="h-3.5 w-3.5" /> Analyzing...
+                      <Spinner className="h-3.5 w-3.5" /> Updating...
                     </span>
                   ) : (
-                    "Re-analyze"
+                    "Update Brand Persona"
                   )}
                 </button>
                 <Link
@@ -555,6 +555,26 @@ export default function PersonaDetailPage() {
           </ul>
         )}
       </div>
+
+      {/* Bottom Update Brand Persona button */}
+      {!isEditing && documents.length > 0 && (
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={handleReanalyze}
+            disabled={isAnalyzing}
+            className="w-full rounded-xl bg-coral px-6 py-3 text-sm font-semibold text-white hover:bg-coral-dark transition-colors disabled:opacity-50"
+          >
+            {isAnalyzing ? (
+              <span className="flex items-center justify-center gap-2">
+                <Spinner /> Updating Brand Persona...
+              </span>
+            ) : (
+              "Update Brand Persona"
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
