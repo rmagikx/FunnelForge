@@ -66,3 +66,20 @@ body {
 .page-transition {
   @apply transition-all duration-200 ease-out;
 }
+
+/* Safe area insets for notched devices (iPhone X+) */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Prevent overscroll/pull-to-refresh on mobile web */
+html {
+  overscroll-behavior: none;
+}
+
+/* Ensure tappable elements have minimum size on touch devices */
+@media (pointer: coarse) {
+  button, a, select, input[type="file"] {
+    min-height: 44px;
+  }
+}

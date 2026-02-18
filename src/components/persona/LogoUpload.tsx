@@ -312,7 +312,7 @@ export default function LogoUpload({
           <button
             type="button"
             onClick={handleRemove}
-            className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+            className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white sm:opacity-0 sm:group-hover:opacity-100 transition-opacity hover:bg-red-600"
             title="Remove logo"
           >
             <svg
@@ -340,12 +340,12 @@ export default function LogoUpload({
         className="hidden"
       />
 
-      <p className="text-[10px] text-gray-400">
+      <p className="text-xs text-gray-400">
         {displayUrl ? "Click to change logo" : "Upload logo (JPEG, PNG, SVG, WebP)"}
       </p>
 
       {error && (
-        <p className="text-[10px] text-red-500">{error}</p>
+        <p className="text-xs text-red-500">{error}</p>
       )}
     </div>
   );

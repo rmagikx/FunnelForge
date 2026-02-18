@@ -107,7 +107,7 @@ export default function LandingPage() {
           <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 h-[500px] w-[500px] rounded-full bg-navy/5 blur-3xl" />
         </div>
 
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center rounded-full border border-coral/20 bg-coral/5 px-3 py-1 text-xs font-medium text-coral mb-6">
               <svg className="mr-1.5 h-3 w-3" fill="currentColor" viewBox="0 0 8 8">
@@ -130,7 +130,7 @@ export default function LandingPage() {
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/auth/signup"
-                className="group flex items-center gap-2 rounded-xl bg-coral px-8 py-4 text-base font-bold text-white shadow-lg shadow-coral/25 hover:bg-coral-dark hover:shadow-coral/30 transition-all"
+                className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-coral px-8 py-4 text-base font-bold text-white shadow-lg shadow-coral/25 hover:bg-coral-dark hover:shadow-coral/30 transition-all"
               >
                 Get Started Free
                 <svg className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
@@ -139,7 +139,7 @@ export default function LandingPage() {
               </Link>
               <Link
                 href="/auth/login"
-                className="rounded-xl border border-gray-300 px-8 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto text-center rounded-xl border border-gray-300 px-8 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Sign in
               </Link>
@@ -172,7 +172,7 @@ export default function LandingPage() {
                   <div className="hidden md:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-gray-200 to-transparent -translate-y-1/2 z-0" />
                 )}
 
-                <div className="relative rounded-2xl border border-gray-200 bg-white p-8 text-center hover:border-coral/30 hover:shadow-lg transition-all duration-300">
+                <div className="relative rounded-2xl border border-gray-200 bg-white p-5 sm:p-8 text-center hover:border-coral/30 hover:shadow-lg transition-all duration-300">
                   <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-gradient-to-br from-navy to-navy-light text-white mb-5">
                     {step.icon}
                   </div>
@@ -222,7 +222,7 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <div className="inline-flex flex-col sm:flex-row items-center gap-6 rounded-2xl border border-gray-200 bg-white px-8 py-6">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 rounded-2xl border border-gray-200 bg-white px-5 sm:px-8 py-5 sm:py-6">
               <div className="text-center sm:text-left">
                 <p className="font-heading text-lg font-bold text-navy">
                   Full-funnel for every channel

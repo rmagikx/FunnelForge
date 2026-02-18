@@ -72,7 +72,7 @@ export default function DashboardLayout({
       <button
         type="button"
         onClick={() => setSidebarOpen(true)}
-        className="fixed bottom-4 left-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-navy text-white shadow-lg lg:hidden"
+        className="fixed bottom-6 left-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-navy text-white shadow-lg lg:hidden safe-bottom"
         aria-label="Open navigation"
       >
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -101,7 +101,7 @@ export default function DashboardLayout({
             <button
               type="button"
               onClick={() => setSidebarOpen(false)}
-              className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100"
+              className="rounded-lg p-2.5 text-gray-400 hover:bg-gray-100"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -121,7 +121,7 @@ export default function DashboardLayout({
                       setSidebarOpen(false);
                       setFeedbackOpen(true);
                     }}
-                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
                   >
                     {item.icon}
                     {item.label}
@@ -139,7 +139,7 @@ export default function DashboardLayout({
                   key={item.href}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition-colors ${
                     isActive
                       ? "bg-navy text-white"
                       : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"

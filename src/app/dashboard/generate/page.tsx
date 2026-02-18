@@ -207,7 +207,7 @@ function GeneratePageContent() {
                 </div>
                 <Link
                   href="/dashboard/personas"
-                  className="shrink-0 rounded-lg border border-gray-300 px-2.5 py-1 text-[10px] font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="shrink-0 rounded-lg border border-gray-300 px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   Switch
                 </Link>
@@ -269,7 +269,7 @@ function GeneratePageContent() {
           <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
             <Link
               href={`/dashboard/personas/${selectedPersonaId}`}
-              className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
             >
               Upload more docs
             </Link>
@@ -311,7 +311,7 @@ function GeneratePageContent() {
                 key={ch}
                 type="button"
                 onClick={() => selectChannel(ch)}
-                className={`rounded-full px-3.5 py-1.5 text-xs font-medium border transition-colors ${
+                className={`rounded-full px-4 py-2.5 text-sm font-medium border transition-colors ${
                   isSelected
                     ? "bg-navy text-white border-navy"
                     : "bg-white text-gray-600 border-gray-300 hover:border-gray-400"
@@ -393,7 +393,7 @@ function GeneratePageContent() {
             <button
               type="button"
               onClick={exportAll}
-              className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
             >
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -409,7 +409,7 @@ function GeneratePageContent() {
                 key={ch}
                 type="button"
                 onClick={() => setActiveTab(ch)}
-                className={`shrink-0 rounded-lg px-4 py-2 text-xs font-semibold transition-colors ${
+                className={`shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
                   activeTab === ch
                     ? "bg-navy text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -465,7 +465,7 @@ function GeneratePageContent() {
                           <button
                             type="button"
                             onClick={() => copyToClipboard(fullText, key)}
-                            className="shrink-0 rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                            className="shrink-0 rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
                             title="Copy"
                           >
                             {copiedKey === key ? (
@@ -486,7 +486,7 @@ function GeneratePageContent() {
 
                         {piece.cta && (
                           <div className="mt-3 pt-2 border-t border-gray-100">
-                            <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wide">
+                            <span className="text-xs font-bold uppercase text-gray-400 tracking-wide">
                               CTA
                             </span>
                             <p className="text-xs font-semibold text-coral mt-0.5">
@@ -500,7 +500,7 @@ function GeneratePageContent() {
                             {piece.hashtags.slice(0, 5).map((tag: string) => (
                               <span
                                 key={tag}
-                                className="text-[10px] text-gray-400"
+                                className="text-xs text-gray-400"
                               >
                                 #{tag}
                               </span>
@@ -509,13 +509,13 @@ function GeneratePageContent() {
                         )}
 
                         <div className="mt-2 flex items-center gap-1.5">
-                          <span className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${colors.bg} ${colors.text}`}>
+                          <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${colors.bg} ${colors.text}`}>
                             {piece.format}
                           </span>
                         </div>
 
                         {piece.posting_tip && (
-                          <p className="mt-2 text-[10px] italic text-gray-400">
+                          <p className="mt-2 text-xs italic text-gray-400">
                             Tip: {piece.posting_tip}
                           </p>
                         )}

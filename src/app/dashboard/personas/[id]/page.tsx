@@ -305,13 +305,13 @@ export default function PersonaDetailPage() {
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             {isEditing ? (
               <>
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
@@ -319,9 +319,9 @@ export default function PersonaDetailPage() {
                   type="button"
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="rounded-lg bg-coral px-4 py-1.5 text-xs font-semibold text-white hover:bg-coral-dark transition-colors disabled:opacity-50"
+                  className="rounded-lg bg-coral px-4 py-2 text-sm font-semibold text-white hover:bg-coral-dark transition-colors disabled:opacity-50"
                 >
-                  {isSaving ? <Spinner className="h-3.5 w-3.5" /> : "Save"}
+                  {isSaving ? <Spinner className="h-4 w-4" /> : "Save"}
                 </button>
               </>
             ) : (
@@ -329,7 +329,7 @@ export default function PersonaDetailPage() {
                 <button
                   type="button"
                   onClick={startEditing}
-                  className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Edit
                 </button>
@@ -337,11 +337,11 @@ export default function PersonaDetailPage() {
                   type="button"
                   onClick={handleReanalyze}
                   disabled={isAnalyzing}
-                  className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
                 >
                   {isAnalyzing ? (
                     <span className="flex items-center gap-1.5">
-                      <Spinner className="h-3.5 w-3.5" /> Updating...
+                      <Spinner className="h-4 w-4" /> Updating...
                     </span>
                   ) : (
                     "Update Brand Persona"
@@ -349,7 +349,7 @@ export default function PersonaDetailPage() {
                 </button>
                 <Link
                   href={`/dashboard/generate?persona=${id}`}
-                  className="rounded-lg bg-coral px-4 py-1.5 text-xs font-semibold text-white hover:bg-coral-dark transition-colors"
+                  className="rounded-lg bg-coral px-4 py-2 text-sm font-semibold text-white hover:bg-coral-dark transition-colors"
                 >
                   Use This Persona
                 </Link>
@@ -402,11 +402,11 @@ export default function PersonaDetailPage() {
 
           {/* Name + type + mission */}
           <div className="mb-4">
-            <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wide">Mission</span>
+            <span className="text-xs font-bold uppercase text-gray-400 tracking-wide">Mission</span>
             <p className="text-sm text-gray-700 mt-1">{brandPersona.mission}</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             <ReadonlyTags label="Tone" values={brandPersona.tone} />
             <ReadonlyTags label="Audience" values={brandPersona.audience} />
             <ReadonlyTags label="Values" values={brandPersona.values} />
@@ -417,7 +417,7 @@ export default function PersonaDetailPage() {
 
           {brandPersona.voiceSamples.length > 0 && (
             <div>
-              <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wide">Voice Samples</span>
+              <span className="text-xs font-bold uppercase text-gray-400 tracking-wide">Voice Samples</span>
               <div className="mt-2 space-y-2">
                 {brandPersona.voiceSamples.map((s, i) => (
                   <p key={i} className="text-sm text-gray-600 italic border-l-2 border-gray-200 pl-3">
@@ -462,7 +462,7 @@ export default function PersonaDetailPage() {
           <button
             type="button"
             onClick={() => setShowUpload(!showUpload)}
-            className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
           >
             {showUpload ? "Cancel" : "Add More Documents"}
           </button>
@@ -554,10 +554,10 @@ export default function PersonaDetailPage() {
                   <button
                     type="button"
                     onClick={() => deleteDocument(doc.id)}
-                    className="shrink-0 rounded p-1 text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all"
+                    className="shrink-0 rounded p-2 text-gray-400 sm:opacity-0 sm:group-hover:opacity-100 hover:text-red-500 transition-all"
                     title="Remove"
                   >
-                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                     </svg>
                   </button>
@@ -596,14 +596,14 @@ export default function PersonaDetailPage() {
 function ReadonlyTags({ label, values }: { label: string; values: string[] }) {
   return (
     <div>
-      <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wide">
+      <span className="text-xs font-bold uppercase text-gray-400 tracking-wide">
         {label}
       </span>
       <div className="flex flex-wrap gap-1 mt-1">
         {values.map((v, i) => (
           <span
             key={`${v}-${i}`}
-            className="rounded-full bg-navy/10 px-2 py-0.5 text-[10px] font-medium text-navy"
+            className="rounded-full bg-navy/10 px-2 py-0.5 text-xs font-medium text-navy"
           >
             {v}
           </span>
@@ -705,9 +705,9 @@ function EditTags({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
           placeholder={`Add ${label.toLowerCase()}...`}
-          className="flex-1 rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-coral focus:ring-1 focus:ring-coral outline-none"
+          className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-coral focus:ring-1 focus:ring-coral outline-none"
         />
-        <button type="button" onClick={addTag} className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50">
+        <button type="button" onClick={addTag} className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50">
           Add
         </button>
       </div>

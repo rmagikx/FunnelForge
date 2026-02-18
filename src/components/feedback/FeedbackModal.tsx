@@ -107,7 +107,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            className="rounded-lg p-2.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
           >
             <svg
               className="h-5 w-5"
@@ -166,7 +166,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                       onClick={() => setStars(star)}
                       onMouseEnter={() => setHoveredStar(star)}
                       onMouseLeave={() => setHoveredStar(0)}
-                      className="rounded p-0.5 transition-transform hover:scale-110"
+                      className="rounded p-1.5 transition-transform hover:scale-110"
                     >
                       <svg
                         className={`h-8 w-8 transition-colors ${
@@ -206,7 +206,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy resize-none"
                   maxLength={2000}
                 />
-                <p className="mt-1 text-right text-[10px] text-gray-400">
+                <p className="mt-1 text-right text-xs text-gray-400">
                   {feedbackText.length}/2000
                 </p>
               </div>
@@ -226,7 +226,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+              className="rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
@@ -234,7 +234,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               type="button"
               onClick={handleSubmit}
               disabled={isSubmitting || !feedbackText.trim() || stars === 0}
-              className="rounded-lg bg-navy px-4 py-2 text-sm font-medium text-white hover:bg-navy-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="rounded-lg bg-navy px-4 py-2.5 text-sm font-medium text-white hover:bg-navy-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isSubmitting ? (
                 <>

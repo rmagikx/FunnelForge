@@ -61,7 +61,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setMenuOpen(!menuOpen)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   {/* Avatar */}
                   <div className="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-xs font-medium text-white">
@@ -85,7 +85,7 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={handleSignOut}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                     >
                       Sign out
                     </button>
@@ -95,7 +95,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/auth/login"
-                className="rounded-lg bg-navy px-4 py-1.5 text-sm font-medium text-white hover:bg-navy-light transition-colors"
+                className="rounded-lg bg-navy px-4 py-2 text-sm font-medium text-white hover:bg-navy-light transition-colors"
               >
                 Sign in
               </Link>

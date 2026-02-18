@@ -422,7 +422,7 @@ export default function NewPersonaPage() {
 
           <p className="text-sm text-gray-600 mb-4">{personaData.mission}</p>
 
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <FieldPreview label="Tone" values={personaData.tone} />
             <FieldPreview label="Audience" values={personaData.audience} />
             <FieldPreview label="Values" values={personaData.values} />
@@ -551,20 +551,20 @@ export default function NewPersonaPage() {
 function FieldPreview({ label, values }: { label: string; values: string[] }) {
   return (
     <div>
-      <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wide mb-1">
+      <p className="text-xs font-bold uppercase text-gray-400 tracking-wide mb-1">
         {label}
       </p>
       <div className="flex flex-wrap gap-1">
         {values.slice(0, 4).map((v, i) => (
           <span
             key={`${v}-${i}`}
-            className="rounded-full bg-navy/10 px-2 py-0.5 text-[10px] font-medium text-navy"
+            className="rounded-full bg-navy/10 px-2 py-0.5 text-xs font-medium text-navy"
           >
             {v}
           </span>
         ))}
         {values.length > 4 && (
-          <span className="text-[10px] text-gray-400">+{values.length - 4}</span>
+          <span className="text-xs text-gray-400">+{values.length - 4}</span>
         )}
       </div>
     </div>

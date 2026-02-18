@@ -200,7 +200,7 @@ export default function HistoryPage() {
                           {gen.channels.map((ch) => (
                             <span
                               key={ch}
-                              className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500"
+                              className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500"
                             >
                               {CHANNEL_SPECS[ch]?.label ?? ch}
                             </span>
@@ -261,7 +261,7 @@ export default function HistoryPage() {
                           onClick={() =>
                             setActiveTab((prev) => ({ ...prev, [gen.id]: ch }))
                           }
-                          className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
+                          className={`shrink-0 rounded-lg px-4 py-2 text-sm font-semibold transition-colors ${
                             (activeTab[gen.id] ?? gen.channels[0]) === ch
                               ? "bg-navy text-white"
                               : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
@@ -288,7 +288,7 @@ export default function HistoryPage() {
                             return (
                               <div key={stage}>
                                 <span
-                                  className={`inline-flex items-center rounded-full ${colors.bg} ${colors.text} px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide mb-2`}
+                                  className={`inline-flex items-center rounded-full ${colors.bg} ${colors.text} px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide mb-2`}
                                 >
                                   {stage}
                                 </span>
@@ -311,7 +311,7 @@ export default function HistoryPage() {
                                             onClick={() =>
                                               copyToClipboard(fullText, key)
                                             }
-                                            className="shrink-0 rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                                            className="shrink-0 rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
                                             title="Copy"
                                           >
                                             {copiedKey === key ? (
@@ -325,11 +325,11 @@ export default function HistoryPage() {
                                             )}
                                           </button>
                                         </div>
-                                        <p className="text-[11px] text-gray-600 leading-relaxed line-clamp-4">
+                                        <p className="text-xs text-gray-600 leading-relaxed line-clamp-4">
                                           {piece.body}
                                         </p>
                                         {piece.cta && (
-                                          <p className="mt-2 text-[11px] font-semibold text-coral">
+                                          <p className="mt-2 text-xs font-semibold text-coral">
                                             {piece.cta}
                                           </p>
                                         )}

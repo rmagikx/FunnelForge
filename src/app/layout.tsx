@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Fraunces } from "next/font/google";
 import { ToastProvider } from "@/components/ui/Toast";
 import "./globals.css";
@@ -12,6 +12,13 @@ const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "FunnelForge — AI-Powered Marketing Content Engine",
