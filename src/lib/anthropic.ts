@@ -3,7 +3,7 @@ import type { BrandPersona, GeneratedPlan } from "@/lib/types";
 import {
   PERSONA_BUILDER_SYSTEM,
   buildPersonaBuilderPrompt,
-  CONTENT_GENERATOR_SYSTEM,
+  getContentGeneratorSystem,
   buildContentGeneratorPrompt,
 } from "@/lib/prompts";
 
@@ -94,5 +94,5 @@ export async function generateContent(
   stage: string
 ): Promise<GeneratedPlan> {
   const prompt = buildContentGeneratorPrompt(persona, problemStatement, channels, stage);
-  return callClaudeJSON<GeneratedPlan>(CONTENT_GENERATOR_SYSTEM, prompt);
+  return callClaudeJSON<GeneratedPlan>(getContentGeneratorSystem(), prompt);
 }

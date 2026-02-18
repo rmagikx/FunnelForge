@@ -1,11 +1,24 @@
 import type { BrandPersona } from "@/lib/types";
 import { formatChannelSpecs } from "./channel-specs";
 
-export const CONTENT_GENERATOR_SYSTEM = `You are an expert marketing copywriter, familiar with the different social media channels like LinkedIn, Instagram, TikTok etc.
+// Dynamic system prompt so the model always knows the current date
+export function getContentGeneratorSystem(): string {
+  const today = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return `You are an expert marketing copywriter, familiar with the different social media channels like LinkedIn, Instagram, TikTok etc.
+Today's date is ${today}. All content you produce must feel current and timely — reference the correct year (${new Date().getFullYear()}) and avoid outdated cultural references.
 Given a buyer persona and a problem statement, you generate high-converting funnel content
 tailored to the persona's psychology, preferences, pain points, and preferred channels. This content should be relevant to today and future. If it is not possible to create the content, please say - No content possible for this problem statement; Need more context.
 Do not hallucinate.
 You MUST respond with valid JSON only — no markdown, no explanation outside the JSON.`;
+}
+
+// Keep a static export for backward compatibility (evaluated at import time)
+export const CONTENT_GENERATOR_SYSTEM = getContentGeneratorSystem();
 
 const STAGE_GUIDANCE: Record<string, string> = {
   awareness: "Content should educate and attract — raise awareness of the problem and position the brand as a knowledgeable voice.",

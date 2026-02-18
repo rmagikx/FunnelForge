@@ -13,6 +13,7 @@ export {
 // Content generator
 export {
   CONTENT_GENERATOR_SYSTEM,
+  getContentGeneratorSystem,
   buildContentGeneratorPrompt,
 } from "./content-generator";
 
