@@ -76,8 +76,11 @@ export default function LandingPage() {
       {/* ───── Navbar ───── */}
       <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="font-heading text-xl font-bold text-navy">
+          <Link href="/" className="flex items-center gap-1.5 font-heading text-xl font-bold text-navy">
             FunnelForge
+            <span className="rounded bg-navy/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-navy/60">
+              Beta
+            </span>
           </Link>
           <div className="flex items-center gap-3">
             <Link
@@ -326,7 +329,12 @@ export default function LandingPage() {
       <footer className="border-t border-gray-100 bg-navy text-white">
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="font-heading text-lg font-bold">FunnelForge</span>
+            <span className="flex items-center gap-1.5 font-heading text-lg font-bold">
+              FunnelForge
+              <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white/50">
+                Beta
+              </span>
+            </span>
             <p className="text-sm text-gray-400">
               &copy; 2025 FunnelForge. All rights reserved.
             </p>

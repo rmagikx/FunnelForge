@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { usePersonas } from "@/hooks/usePersonas";
 import { useContentGeneration } from "@/hooks/useContentGeneration";
 import { CHANNEL_SPECS } from "@/lib/prompts/channel-specs";
@@ -104,14 +105,61 @@ function GeneratePageContent() {
 
   function exportAll() {
     if (!generatedContent) return;
-    const blob = new Blob(
-      [JSON.stringify(generatedContent, null, 2)],
-      { type: "application/json" }
-    );
+
+    const lines: string[] = [];
+    const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    const brandName = selectedPersona?.name ?? "Unknown Brand";
+
+    lines.push(`GENERATED CONTENT — ${brandName}`);
+    lines.push(`Exported on ${date}`);
+    lines.push("=".repeat(60));
+    lines.push("");
+
+    for (const [channel, channelData] of Object.entries(generatedContent)) {
+      const channelLabel = CHANNEL_SPECS[channel]?.label ?? channel;
+      lines.push(`## ${channelLabel.toUpperCase()}`);
+      lines.push("-".repeat(40));
+
+      const data = channelData as ChannelContent;
+      for (const stage of FUNNEL_STAGES) {
+        const pieces = data[stage];
+        if (!pieces || pieces.length === 0) continue;
+
+        lines.push("");
+        lines.push(`  Stage: ${STAGE_LABELS[stage]}`);
+        lines.push("");
+
+        pieces.forEach((piece: ContentPiece, i: number) => {
+          lines.push(`  --- Piece ${i + 1} ---`);
+          lines.push(`  Headline: ${piece.headline}`);
+          lines.push(`  Format: ${piece.format}`);
+          lines.push("");
+          // Indent each line of the body
+          piece.body.split("\n").forEach((bodyLine) => {
+            lines.push(`  ${bodyLine}`);
+          });
+          lines.push("");
+          if (piece.cta) {
+            lines.push(`  CTA: ${piece.cta}`);
+          }
+          if (piece.hashtags?.length > 0) {
+            lines.push(`  Hashtags: ${piece.hashtags.map((h) => `#${h}`).join(" ")}`);
+          }
+          if (piece.posting_tip) {
+            lines.push(`  Tip: ${piece.posting_tip}`);
+          }
+          lines.push("");
+        });
+      }
+
+      lines.push("");
+    }
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `funnel-content-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `funnel-content-${brandName.toLowerCase().replace(/\s+/g, "-")}-${new Date().toISOString().slice(0, 10)}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -135,13 +183,19 @@ function GeneratePageContent() {
           {/* Left: Persona selector */}
           <div>
             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
-              Choose a persona
+              Choose a brand
             </label>
             {selectedPersona ? (
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-navy to-navy-light text-white font-heading font-bold">
-                  {selectedPersona.name[0]?.toUpperCase()}
-                </div>
+                {selectedPersona.logo_url ? (
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gray-200 overflow-hidden bg-white">
+                    <Image src={selectedPersona.logo_url} alt={`${selectedPersona.name} logo`} width={40} height={40} className="h-full w-full object-contain p-0.5" unoptimized />
+                  </div>
+                ) : (
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-navy to-navy-light text-white font-heading font-bold">
+                    {selectedPersona.name[0]?.toUpperCase()}
+                  </div>
+                )}
                 <div className="min-w-0 flex-1">
                   <p className="font-heading font-semibold text-gray-900 truncate">
                     {selectedPersona.name}
@@ -167,7 +221,7 @@ function GeneratePageContent() {
                     className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-coral focus:ring-1 focus:ring-coral outline-none"
                   >
                     <option value="" disabled>
-                      Choose a persona...
+                      Choose a brand...
                     </option>
                     {personas.map((p) => (
                       <option key={p.id} value={p.id}>

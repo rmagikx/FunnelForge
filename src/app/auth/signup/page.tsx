@@ -106,8 +106,11 @@ export default function SignupPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="font-heading text-3xl font-bold text-navy">
+          <h1 className="font-heading text-3xl font-bold text-navy flex items-center justify-center gap-2">
             FunnelForge
+            <span className="rounded bg-navy/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-navy/60">
+              Beta
+            </span>
           </h1>
           <p className="mt-2 text-gray-500">Create your account</p>
         </div>

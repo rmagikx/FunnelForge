@@ -47,8 +47,11 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="font-heading text-xl font-bold text-navy">
+          <Link href="/" className="flex items-center gap-1.5 font-heading text-xl font-bold text-navy">
             FunnelForge
+            <span className="rounded bg-navy/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-navy/60">
+              Beta
+            </span>
           </Link>
 
           {/* Right side */}
