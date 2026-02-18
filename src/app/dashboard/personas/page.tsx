@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { usePersonas } from "@/hooks/usePersonas";
 import type { Persona } from "@/lib/types";
 
@@ -152,11 +153,17 @@ export default function PersonasPage() {
                   href={`/dashboard/personas/${persona.id}`}
                   className="block p-5"
                 >
-                  {/* Top: avatar + status */}
+                  {/* Top: logo/avatar + status */}
                   <div className="flex items-start justify-between mb-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-navy to-navy-light text-white font-heading font-bold text-lg">
-                      {persona.name[0]?.toUpperCase()}
-                    </div>
+                    {persona.logo_url ? (
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 overflow-hidden bg-white">
+                        <Image src={persona.logo_url} alt={`${persona.name} logo`} width={44} height={44} className="h-full w-full object-contain p-1" unoptimized />
+                      </div>
+                    ) : (
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-navy to-navy-light text-white font-heading font-bold text-lg">
+                        {persona.name[0]?.toUpperCase()}
+                      </div>
+                    )}
                     {isAnalyzed ? (
                       <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-semibold text-green-700">
                         Analyzed

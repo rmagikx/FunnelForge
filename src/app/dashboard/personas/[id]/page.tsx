@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useDocuments } from "@/hooks/useDocuments";
+import LogoUpload from "@/components/persona/LogoUpload";
 import type { Persona, BrandPersona } from "@/lib/types";
 
 function formatDate(dateStr: string) {
@@ -254,9 +255,20 @@ export default function PersonaDetailPage() {
       {/* ── Persona header card ── */}
       <div className="rounded-2xl border border-gray-200 bg-white p-6 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-          {/* Avatar */}
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-navy-light text-white font-heading font-bold text-2xl">
-            {persona.name[0]?.toUpperCase()}
+          {/* Logo / Avatar */}
+          <div className="shrink-0">
+            <LogoUpload
+              personaId={persona.id}
+              currentLogoUrl={persona.logo_url}
+              fallbackInitial={persona.name[0]?.toUpperCase() || "?"}
+              onUploadComplete={(logoUrl) => {
+                setPersona((prev) =>
+                  prev ? { ...prev, logo_url: logoUrl || null } : prev
+                );
+                showSuccess(logoUrl ? "Logo updated!" : "Logo removed!");
+              }}
+              size="md"
+            />
           </div>
 
           <div className="flex-1 min-w-0">

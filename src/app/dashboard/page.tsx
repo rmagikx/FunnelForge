@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { usePersonas } from "@/hooks/usePersonas";
 import { useToast } from "@/components/ui/Toast";
 import OnboardingFlow from "@/components/dashboard/OnboardingFlow";
@@ -86,10 +87,10 @@ export default function DashboardPage() {
     <div className="animate-fade-in">
       <div className="mb-8">
         <h1 className="font-heading text-2xl font-bold text-gray-900">
-          Your Personas
+          Your Brands
         </h1>
         <p className="text-sm text-gray-500 mt-1">
-          Select a persona to start generating content, or create a new one.
+          Select a brand persona to start generating content, or create a new one.
         </p>
       </div>
 
@@ -111,11 +112,17 @@ export default function DashboardPage() {
               onClick={() => handleSelectPersona(persona)}
               className="group text-left rounded-2xl border border-gray-200 bg-white p-5 hover:border-coral/40 hover:shadow-lg transition-all duration-200"
             >
-              {/* Avatar + badge */}
+              {/* Avatar / Logo + badge */}
               <div className="flex items-start justify-between mb-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-navy to-navy-light text-white font-heading font-bold text-lg">
-                  {persona.name[0]?.toUpperCase()}
-                </div>
+                {persona.logo_url ? (
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 overflow-hidden bg-white">
+                    <Image src={persona.logo_url} alt={`${persona.name} logo`} width={44} height={44} className="h-full w-full object-contain p-1" unoptimized />
+                  </div>
+                ) : (
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-navy to-navy-light text-white font-heading font-bold text-lg">
+                    {persona.name[0]?.toUpperCase()}
+                  </div>
+                )}
                 {isAnalyzed ? (
                   <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-semibold text-green-700">
                     Analyzed
