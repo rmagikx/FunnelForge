@@ -86,10 +86,10 @@ export default function PersonaList() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="font-heading text-2xl font-bold text-gray-900">
-            Personas
+            Brand Personas
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage your buyer personas and their source documents.
+            Manage your brand personas and their source documents.
           </p>
         </div>
         <button
@@ -97,7 +97,7 @@ export default function PersonaList() {
           onClick={() => setShowCreate(true)}
           className="rounded-lg bg-navy px-4 py-2 text-sm font-medium text-white hover:bg-navy-light transition-colors"
         >
-          New persona
+          New brand persona
         </button>
       </div>
 
@@ -114,7 +114,7 @@ export default function PersonaList() {
           className="mb-6 rounded-xl border border-gray-200 bg-white p-5"
         >
           <h3 className="font-heading font-semibold text-gray-900 mb-4">
-            Create new persona
+            Create new brand persona
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
@@ -177,7 +177,7 @@ export default function PersonaList() {
       {personas.length === 0 ? (
         <div className="text-center py-16 rounded-xl border border-dashed border-gray-200">
           <p className="text-sm text-gray-500">
-            No personas yet. Create one to get started.
+            No brand personas yet. Create one to get started.
           </p>
         </div>
       ) : (

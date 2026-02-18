@@ -55,10 +55,10 @@ export default function PersonaSelector({
           </svg>
         </div>
         <h3 className="font-heading text-lg font-semibold text-gray-900 mb-1">
-          No personas yet
+          No brand personas yet
         </h3>
         <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
-          Upload documents about your audience to create your first buyer
+          Upload documents about your brand to create your first brand
           persona.
         </p>
         <button
@@ -66,7 +66,7 @@ export default function PersonaSelector({
           onClick={onCreateNew}
           className="rounded-lg bg-navy px-5 py-2.5 text-sm font-medium text-white hover:bg-navy-light transition-colors"
         >
-          Create your first persona
+          Create your first brand persona
         </button>
       </div>
     );
@@ -137,7 +137,7 @@ export default function PersonaSelector({
           </svg>
         </div>
         <span className="text-sm font-medium text-gray-500">
-          Create new persona
+          Create new brand persona
         </span>
       </button>
     </div>

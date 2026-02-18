@@ -76,7 +76,7 @@ export default function PersonasPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-heading text-2xl font-bold text-gray-900">
-            Personas
+            Brand Personas
           </h1>
           <p className="text-sm text-gray-500 mt-1">
             Manage your brand personas and their source documents.
@@ -113,17 +113,17 @@ export default function PersonasPage() {
             />
           </svg>
           <h3 className="font-heading text-lg font-semibold text-gray-900 mb-1">
-            No personas yet
+            No brand personas yet
           </h3>
           <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
-            Upload documents about your brand to create your first persona
+            Upload documents about your brand to create your first brand persona
             and start generating content.
           </p>
           <Link
             href="/dashboard/personas/new"
             className="rounded-lg bg-coral px-5 py-2.5 text-sm font-semibold text-white hover:bg-coral-dark transition-colors"
           >
-            Create your first persona
+            Create your first brand persona
           </Link>
         </div>
       ) : (
@@ -135,9 +135,9 @@ export default function PersonasPage() {
                 .documents?.[0]?.count ?? 0;
             const pd = persona.persona_data as Record<string, unknown> | null;
             const isAnalyzed = pd !== null && "name" in (pd ?? {});
-            const brandName = isAnalyzed
-              ? String(pd?.name ?? persona.name)
-              : persona.name;
+            const brandDescription = isAnalyzed
+              ? String(pd?.name ?? "")
+              : "";
             const isDeleting = deletingId === persona.id;
 
             return (
@@ -170,8 +170,13 @@ export default function PersonasPage() {
 
                   {/* Name + type */}
                   <h3 className="font-heading font-semibold text-gray-900 group-hover:text-coral transition-colors">
-                    {brandName}
+                    {persona.name}
                   </h3>
+                  {brandDescription && (
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {brandDescription}
+                    </p>
+                  )}
                   {persona.org_type && (
                     <p className="text-xs text-gray-400 mt-0.5">
                       {persona.org_type}
@@ -208,9 +213,12 @@ export default function PersonasPage() {
                   <button
                     type="button"
                     onClick={(e) => handleDelete(e, persona)}
-                    className="rounded-lg px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
+                    className="rounded-lg p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                    title="Delete persona"
                   >
-                    Delete
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -228,7 +236,7 @@ export default function PersonasPage() {
               </svg>
             </div>
             <span className="text-sm font-medium text-gray-500">
-              Create new persona
+              Create new brand persona
             </span>
           </Link>
         </div>

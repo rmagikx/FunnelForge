@@ -34,7 +34,7 @@ function GeneratePageContent() {
   );
   const [selectedStage, setSelectedStage] = useState<string>("");
   const [problem, setProblem] = useState("");
-  const [selectedChannels, setSelectedChannels] = useState<string[]>([...ALL_CHANNELS]);
+  const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<string>("");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
@@ -64,11 +64,9 @@ function GeneratePageContent() {
     [selectedPersona]
   );
 
-  function toggleChannel(ch: string) {
+  function selectChannel(ch: string) {
     setSelectedChannels((prev) =>
-      prev.includes(ch)
-        ? prev.filter((c) => c !== ch)
-        : [...prev, ch]
+      prev.includes(ch) ? [] : [ch]
     );
   }
 
@@ -245,23 +243,10 @@ function GeneratePageContent() {
 
       {/* Channel selection */}
       <div className="rounded-2xl border border-gray-200 bg-white p-5 mb-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3">
           <h3 className="font-heading text-sm font-semibold text-gray-900">
-            Channels
+            Select a channel
           </h3>
-          <button
-            type="button"
-            onClick={() =>
-              setSelectedChannels((prev) =>
-                prev.length === ALL_CHANNELS.length ? [] : [...ALL_CHANNELS]
-              )
-            }
-            className="text-xs font-medium text-coral hover:underline"
-          >
-            {selectedChannels.length === ALL_CHANNELS.length
-              ? "Deselect all"
-              : "Select all"}
-          </button>
         </div>
         <div className="flex flex-wrap gap-2">
           {ALL_CHANNELS.map((ch) => {
@@ -271,7 +256,7 @@ function GeneratePageContent() {
               <button
                 key={ch}
                 type="button"
-                onClick={() => toggleChannel(ch)}
+                onClick={() => selectChannel(ch)}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-medium border transition-colors ${
                   isSelected
                     ? "bg-navy text-white border-navy"

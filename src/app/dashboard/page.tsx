@@ -177,7 +177,7 @@ export default function DashboardPage() {
             </svg>
           </div>
           <span className="text-sm font-medium text-gray-500">
-            Create new persona
+            Create new brand persona
           </span>
         </button>
       </div>
